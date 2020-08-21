@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备电源管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico"> <link th:href="@{/home/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/home/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/home/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/home/css/style.css?v=4.1.0}" rel="stylesheet">
+    <!-- 全局js -->
+    <script th:src="@{/home/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/home/js/bootstrap.min.js?v=3.3.6}"></script>
+    <!-- 自定义js -->
+    <script th:src="@{/home/js/content.js?v=1.0.0}"></script>
+    <script>
+        $(function () {
+            $(".open-device-btn").each(function () {
+                const object = $(this);
+                object.on("click",function () {
+                    const deviceId = $(this).attr("device-id");
+                    let current_status = $(this).attr("current_status");
+                    if (current_status == 1) {
+                        let r = confirm("关机前请确认文档是否已经保存，点击确认进行关机");
+                        if (r == true) {
+
+                        } else {
+                            return false;
+                        }
+                    }
+                    $.ajax({
+                        type: "post",
+                        url: "/wol/open",    //向后端请求数据的url
+                        data: {id : deviceId , action : current_status},
+                        success: function (data) {
+                            if (data == "succeedOpen") {
+                                $.ajax({
+                                    type: "post",
+                                    url: "/wol/upd",    //向后端请求数据的url
+                                    data: {id : deviceId , action : current_status},
+                                    success: function (data) {
+                                        object.attr("disabled","disabled");
+                                        object.text("设备启动中");
+                                    }
+                                });
+                            } else if (data == "succeedClose"){
+                                $.ajax({
+                                    type: "post",
+                                    url: "/wol/upd",    //向后端请求数据的url
+                                    data: {id : deviceId , action : current_status},
+                                    success: function (data) {
+                                        object.attr("disabled","disabled");
+                                        object.text("设备关闭中");
+                                    }
+                                });
+                            } else {
+                                alert("设备操作失败");
+                            }
+                        }
+                    });
+                })
+            })
+
+            const timer = setInterval(function(){
+                $(".open-device-btn").each(function () {
+                    const object = $(this);
+                    const deviceId = object.attr("device-id");
+                    const statusDom = $("#status"+deviceId);
+                    $.ajax({
+                        type: "post",
+                        url: "/wol/check",    //向后端请求数据的url
+                        data: {id : deviceId},
+                        success: function (data) {
+                            object.attr("current_status",data);
+                            if (data == "1") {
+                                object.removeAttr("disabled");
+                                object.css("background-color","#23b7e5");
+                                object.text("关闭设备");
+                                statusDom.text("运行中");
+                            } else if (data == "2"){
+                                object.attr("disabled","disabled");
+                                object.css("background-color","#abb3b2");
+                                object.text("设备启动中");
+                                statusDom.text("启动中");
+                            } else if (data == "3") {
+                                object.attr("disabled","disabled");
+                                object.css("background-color","#abb3b2");
+                                object.text("设备关闭中");
+                                statusDom.text("关闭中");
+                            } else if (data == "0"){
+                                object.removeAttr("disabled");
+                                object.css("background-color","#23b7e5");
+                                object.text("启动设备");
+                                statusDom.text("已关闭");
+                            }
+                        }
+                    });
+                })
+            }, 500)
+        })
+    </script>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox" th:each="device,iterStat : ${devices}">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right" th:attr="id = status + ${device.id}">运行状态</span>
+                        <h5 th:text="${device.name}">设备名称</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row  m-t-sm">
+                            <div class="col-sm-4">
+                                <div class="font-bold">设备MAC</div>
+                                <span th:text="${device.mac}"></span>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="font-bold">设备IP</div>
+                                <span th:text="${device.ip}"></span>
+                            </div>
+                            <div class="col-sm-3 text-right">
+                                <button class="btn btn-info btn-sm open-device-btn" th:attr="device-id=${device.id}">启动设备</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    
+    
+
+</body>
+
+</html>

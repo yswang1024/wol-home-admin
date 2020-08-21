@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎使用</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link th:href="@{/home/css/bootstrap.min.css?v=3.3.6}" rel="stylesheet">
+    <link th:href="@{/home/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+    <link th:href="@{/home/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/home/css/style.css?v=4.1.0}" rel="stylesheet">
+    <!-- 全局js -->
+    <script th:src="@{/home/js/jquery.min.js?v=2.1.4}"></script>
+    <script th:src="@{/home/js/bootstrap.min.js?v=3.3.6}"></script>
+    <script th:src="@{/home/js/plugins/layer/layer.min.js}"></script>
+    <!-- Flot -->
+    <script th:src="@{/home/js/plugins/flot/jquery.flot.js}"></script>
+    <script th:src="@{/home/js/plugins/flot/jquery.flot.tooltip.min.js}"></script>
+    <script th:src="@{/home/js/plugins/flot/jquery.flot.resize.js}"></script>
+    <script th:src="@{/home/js/plugins/flot/jquery.flot.pie.js}"></script>
+    <!-- 自定义js -->
+    <script th:src="@{/home/js/content.js}"></script>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="ibox-content m-b-sm border-bottom">
+                        <div class="p-xs">
+                            <div class="pull-left m-r-md">
+                                <i class="fa fa-globe text-navy mid-icon"></i>
+                            </div>
+                            <h2>欢迎使用Home Server</h2>
+                            <span>当前版本： Beta 1</span>
+                            <br>
+                            <span>当前认证IP： <span th:text="${currentIP}"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>
