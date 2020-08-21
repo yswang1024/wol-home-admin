@@ -1,0 +1,12 @@
+CREATE TABLE wol.device_list (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  mac varchar(255) DEFAULT NULL,
+  ip varchar(255) DEFAULT NULL,
+  status int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+)
+ENGINE = INNODB,
+AUTO_INCREMENT = 3,
+AVG_ROW_LENGTH = 8192,
+CHARACTER SET utf8,
+COLLATE utf8_general_ci;
