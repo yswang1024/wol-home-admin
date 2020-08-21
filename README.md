@@ -24,7 +24,7 @@
 ![image](https://github.com/yswang1024/wol-home-admin/blob/master/screenshot/wol_login_1.png)
 ![image](https://github.com/yswang1024/wol-home-admin/blob/master/screenshot/wol_login_2.png)
 ![image](https://github.com/yswang1024/wol-home-admin/blob/master/screenshot/wol_index.png)
-![image](https://github.com/yswang1024/wol-home-admin/blob/master/screenshot/wol_device.png)
+![image](https://github.com/yswang1024/wol-home-admin/blob/master/screenshot/wol_device_page.png)
 
 ### WOL核心代码来源
 [https://github.com/rmrodrigues/wol4j](https://github.com/rmrodrigues/wol4j)
